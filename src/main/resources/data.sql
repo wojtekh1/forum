@@ -1,0 +1,4 @@
+-- INSERT INTO FORUMUSERS VALUES (1,'pass1','user1')
+-- INSERT INTO FORUMUSERS VALUES (2,'pass2','user2')
+-- INSERT INTO FORUMUSERS VALUES (3,'admin','admin')
+;
