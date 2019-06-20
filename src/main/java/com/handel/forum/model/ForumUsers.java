@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "Forumusers")
 public class ForumUsers {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,5 +44,8 @@ public class ForumUsers {
             inverseJoinColumns = @JoinColumn(name = "User_Type_Id"))
     @NotEmpty(message = "*Please choose at least one role!")
     private List<UserType> roles;
-
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @MapsId
+//    private Post post;
 }

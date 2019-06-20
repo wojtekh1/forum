@@ -13,13 +13,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -50,19 +46,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-
         http.
                 authorizeRequests()
-                .antMatchers("/main").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/index").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+//                .antMatchers("/registration").permitAll()
                 .antMatchers("/registration").hasAnyAuthority("ADMIN")
                 .antMatchers("/editUser-{id}").hasAnyAuthority("ADMIN")
                 .antMatchers("/profile-{id}").hasAnyAuthority("ADMIN")
-                .antMatchers("/uploadFile").hasAnyAuthority("ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
@@ -82,7 +74,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**",
-                        "/images/**", "resources/uploads/**", "/uploads/**");
+                        "/images/**", "resources/uploads/**", "/uploads/**","/webjars/**","/h2-console/**");
     }
-
 }

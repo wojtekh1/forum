@@ -13,10 +13,11 @@ public interface UsersRepository extends JpaRepository<ForumUsers, Integer> {
     ForumUsers findByEmail(String email);
 
     @Query(value = "select * from ForumUsers", nativeQuery = true)
-    List<ForumUsers> findAll();
+    List<ForumUsers> findAllUsers();
 
     List<ForumUsers> findUserByRoles(UserType role);
 
     ForumUsers findUsersByUserId(Integer id);
+
 
 }

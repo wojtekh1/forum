@@ -46,6 +46,7 @@ public class LoginController {
             modelAndView.addObject("errorMessage", "Fill in all fields!!");
             modelAndView.setViewName("registration");
         } else {
+//            users.setRoles("USER");
             userService.saveNewUser(users);
             modelAndView.addObject("successMessage", "User has been registered!");
             modelAndView.addObject("users", new ForumUsers());
