@@ -20,7 +20,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer postId;
 
-    @NotEmpty
+    @NotEmpty(message = "Wypełnij treść postu")
     private String postContent;
 
     private LocalDateTime date;
@@ -29,6 +29,7 @@ public class Post {
     @JoinColumn(name = "User")
     private ForumUsers user;
 
+    @NotEmpty(message = "Wypełnij tytuł postu")
     private String topic;
 
     @Nullable

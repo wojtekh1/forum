@@ -9,16 +9,13 @@ body {
     align-items: center;
 }
 
-.bg-brand {
-    background-color: #0f4574; !important
-}
 
 .border-signin {
     border: 3px solid #acacac !important
 }
 
 .bg-brand {
-    background-color: #0f4574; !important
+    background-color: #352659; !important
 }
 
 .rounded-signin {

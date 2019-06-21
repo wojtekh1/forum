@@ -14,4 +14,7 @@ public interface UserTypeRepository extends JpaRepository<UserType, Integer> {
 
     @Query(value = "select * from User_Type", nativeQuery = true)
     List<UserType> findAllRoles();
+
+    @Query(value = "select * from User_Type where TYPE='USER'", nativeQuery = true)
+    List<UserType> findUserRole();
 }

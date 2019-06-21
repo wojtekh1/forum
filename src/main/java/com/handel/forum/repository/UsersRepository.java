@@ -18,6 +18,4 @@ public interface UsersRepository extends JpaRepository<ForumUsers, Integer> {
     List<ForumUsers> findUserByRoles(UserType role);
 
     ForumUsers findUsersByUserId(Integer id);
-
-
 }

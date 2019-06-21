@@ -21,6 +21,10 @@ public class GlobalAttributesController {
        return Stream.of(new UserType(1, "ADMIN "), new UserType(2, "USER"))
                 .collect(Collectors.toList());
     }
-
+    @ModelAttribute("userType")
+    public List<UserType> getUserType() {
+        return Stream.of(new UserType(2, "USER"))
+                .collect(Collectors.toList());
+    }
 
 }

@@ -26,28 +26,34 @@ public class LoginController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public ModelAndView registration(ModelAndView modelAndView) {
-        modelAndView.addObject("edit", false);
-//        modelAndView.addObject("availableTeams", teamService.findAllTeams());
         modelAndView.addObject("users", new ForumUsers());
-
         modelAndView.setViewName("registration");
         return modelAndView;
     }
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid ForumUsers users, BindingResult bindingResult, ModelAndView modelAndView) {
-        modelAndView.addObject("edit", false);
+    public ModelAndView createNewUser(@Valid ForumUsers user, BindingResult bindingResult, ModelAndView modelAndView) {
 
-        if (userService.findUserByEmail(users.getEmail()) != null) {
+        if (userService.findUserByEmail(user.getEmail()) != null) {
+            System.out.println("Email zarezerwowany");
             bindingResult
                     .rejectValue("email", "error.user",
-                            "The email address is in use already!");
+                            "Email zarezerwowany");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("errorMessage", "Fill in all fields!!");
+            System.out.println("------------------bindingResult.hasErrors---------------");
+            if(bindingResult.hasFieldErrors("password"))  modelAndView.addObject("errorPassword", "Hasło musi mieć przynajmniej 5 znaków");
+            if(bindingResult.hasFieldErrors("email"))  modelAndView.addObject("errorEmail", "Wprowadź poprawny adres email");
+            if(bindingResult.hasFieldErrors("roles"))  modelAndView.addObject("errorRoles", "Wybierz uprawnienia");
+
+            bindingResult.getAllErrors().forEach(error -> {
+                        System.out.println(error.getObjectName() + " " + error.getDefaultMessage());
+                    });
+            modelAndView.addObject("errorMessage", "Formularz wypełniony błędnie");
+            modelAndView.addObject("users", new ForumUsers());
             modelAndView.setViewName("registration");
         } else {
-//            users.setRoles("USER");
-            userService.saveNewUser(users);
+            System.out.println("------------------zapis---------------");
+            userService.saveNewUser(user);
             modelAndView.addObject("successMessage", "User has been registered!");
             modelAndView.addObject("users", new ForumUsers());
             modelAndView.setViewName("registration");

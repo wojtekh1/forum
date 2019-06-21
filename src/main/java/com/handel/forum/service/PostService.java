@@ -21,4 +21,9 @@ public class PostService {
     public List<Post> getAllPosts() {
         return new ArrayList<>(postRepository.getAllPosts());
     }
+
+    public void deletePost(Integer id) {
+        System.out.println("ID posta "+id);
+        postRepository.deletePostByPost_Id(id);
+    }
 }

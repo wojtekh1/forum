@@ -32,17 +32,19 @@
 <body>
 
     <div class="container" th:replace="fragments/header :: header"></div>
-    <div style="margin-top: 80px"></div>
+    <div style="margin-top: 110px"></div>
     <div class="row">
         <div class="col-md-2 col-sm-12">
         </div>
         <div class="col-md-8 col-sm-12">
             <h1>Witam na forum</h1>
-            <h5>Zapraszm do rejestracji i publikacji postów.</h5>
+            <h5>Zapraszam do rejestracji i publikacji postów.</h5>
             <div class="m-2 p-2 border rounded" th:if="${#request.getUserPrincipal() != null}">
                 <form class="form-horizontal" th:action="@{/}" th:object="${post}" method="POST">
                     <input type="text" class="form-control m-1" th:field="*{topic}" placeholder="Temat postu" />
+                    <label th:if="${#fields.hasErrors('topic')}" th:errors="*{topic}" class="validation-message text-danger"></label>
                     <input type="text" class="form-control m-1" th:field="*{postContent}" placeholder="Treść postu" />
+                    <label th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}" class="validation-message text-danger"></label>
                     <div class="d-flex">
                         <button class="btn btn-primary ml-auto mr-auto pl-5 pr-5" type="submit">Opublikuj</button>
                     </div>
@@ -62,13 +64,15 @@
                     <div class="ml-auto mr-2" th:text="${#temporals.format(post.date, 'dd-MM-yyyy HH:mm')}"></div>
                 </div>
                 <div class="d-flex" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().toString().contains('ADMIN')}">
-                        <button class="btn btn-danger ml-auto m-2" type="submit">Usuń post</button>
+                        <a th:href="${'/delete/'+post.postId}" class="btn btn-danger ml-auto m-2" type="submit">Usuń post</a>
                     </div>
             </div>
         </div>
         <div class="col-md-2 col-sm-12">
         </div>
     </div>
+    <div style="margin-bottom: 50px"></div>
+    <br>
     <div class="container" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

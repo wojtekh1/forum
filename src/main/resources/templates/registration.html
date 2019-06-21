@@ -19,10 +19,10 @@
 
 <body>
 <div class="container" th:replace="fragments/header :: header" style="margin-bottom: 77px;"></div>
-<div style="margin-top: 80px"></div>
+<div style="margin-top: 110px"></div>
 <div class="container">
-    <form th:action="@{/}" method="get">
-        <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+    <form th:action="@{/login}">
+        <button class="btn btn-md btn-outline-info btn-block" type="Submit">Strona logowania</button>
     </form>
 </div>
 
@@ -31,50 +31,57 @@
         <div class="col-lg-3 col-12">
         </div>
         <div class="col-lg-6 col-12">
-            <div class="col-12">
+            <div class="col-12 border rounded m-2">
                 <form id="form" autocomplete="off" action="#" th:action="@{/registration}" th:object="${users}"
                       method="post" class="form-horizontal" role="form">
-                    <h2>Registration Form</h2>
+                    <h2>Formularz</h2>
                     <div class="form-group">
                         <div class="col-12">
                             <input type="text" th:field="*{email}" placeholder="Email" class="form-control"/>
-                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                                   class="validation-message text-danger"></label>
+                            <span class="text-danger" th:utext="${errorEmail}"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-12">
                             <input type="password" th:field="*{password}" placeholder="Password" class="form-control"/>
-                            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                                   class="validation-message text-danger"></label>
+                            <span class="text-danger" th:utext="${errorPassword}"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <h6 class="font-weight-bold">Role:</h6>
-                        <div class="col-12">
-                            <select class="custom-select" th:field="*{roles}" multiple="multiple">
+                        <h6 class="font-weight-bold">Prawa użytkownika:</h6>
+                        <div  class="col-12" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().toString().contains('ADMIN')}">
+                            <select class="custom-select"  th:field="*{roles}" multiple="multiple">
                                 <option th:each="type,typeStat : ${userTypes}" th:value="${type.userTypeId}"
                                         th:text="${type.userType}">Wireframe
                                 </option>
                             </select>
-                            <label th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"
-                                   class="validation-message text-danger"></label>
+                        </div>
+                        <div class="col-12" th:if="${#request.getUserPrincipal() == null || #request.getUserPrincipal().toString().contains('USER')}">
+                            <select class="form-control"  th:field="*{roles}" multiple="multiple">
+                                <option th:each="type,typeStat : ${userType}" th:value="${type.userTypeId}"
+                                        th:text="${type.userType}">Wireframe
+                                </option>
+                            </select>
+                            <span class="text-danger" th:utext="${errorRoles}"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Confirm User</button>
+                            <button type="submit" class="btn btn-outline-primary btn-block">Rejestruj</button>
                         </div>
                     </div>
-                    <h2><span class="text-danger" th:utext="${errorMessage}"></span></h2>
-                    <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
+                    <h6><span class="text-danger" th:utext="${errorMessage}"></span></h6>
+                    <h6><span class="text-success" th:utext="${successMessage}"></span></h6>
                 </form>
             </div>
         </div>
         <div class="col-lg-6 col-12">
         </div>
+        <div style="margin-bottom: 50px"></div>
+        <br>
+        <div class="container" th:replace="fragments/footer :: footer"></div>
     </div>
 </div>
 

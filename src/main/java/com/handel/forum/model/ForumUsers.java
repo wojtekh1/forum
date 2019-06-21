@@ -1,7 +1,8 @@
 package com.handel.forum.model;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.*;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -22,14 +23,13 @@ public class ForumUsers {
     private Integer userId;
 
     @Column(name = "Password")
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
-    @NotEmpty(message = "*Please provide your password")
+    @Size(min = 5, message = "Hasło musi mieć przynajmniej 5 znaków")
     private String password;
 
 
     @Column(name = "Email")
-//    @Email(message = "*Please provide a valid Email")
-    @NotEmpty(message = "*Please provide an email")
+    @Email(message = "Wprowadź poprawny adres email")
+    @NotEmpty
     private String email;
 
     @Column(name = "Is_Active")
@@ -42,10 +42,6 @@ public class ForumUsers {
     @JoinTable(name = "Users_User_Type",
             joinColumns = @JoinColumn(name = "User_Id"),
             inverseJoinColumns = @JoinColumn(name = "User_Type_Id"))
-    @NotEmpty(message = "*Please choose at least one role!")
+    @NotEmpty(message = "Wybierz uprawnienia")
     private List<UserType> roles;
-//
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
-//    private Post post;
 }

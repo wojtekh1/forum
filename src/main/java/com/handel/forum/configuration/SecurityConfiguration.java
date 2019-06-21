@@ -37,10 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
                 .passwordEncoder(bCryptPasswordEncoder);
-//                inMemoryAuthentication()
-//                .withUser("admin").password("admin").roles("ADMIN")
-//                .and()
-//                .withUser("user1").password("user1").roles("USER");
     }
 
     @Override
@@ -52,11 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/index").permitAll()
 //                .antMatchers("/registration").permitAll()
-                .antMatchers("/registration").hasAnyAuthority("ADMIN")
-                .antMatchers("/editUser-{id}").hasAnyAuthority("ADMIN")
-                .antMatchers("/profile-{id}").hasAnyAuthority("ADMIN")
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
+                .antMatchers("/registration").permitAll()
+                .and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/",true)
                 .usernameParameter("email")
@@ -74,6 +67,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**",
-                        "/images/**", "resources/uploads/**", "/uploads/**","/webjars/**","/h2-console/**");
+                        "/images/**","/webjars/**","/h2-console/**");
     }
 }
