@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.security.Security;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,14 @@ public class HomeController {
         ForumUsers user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         modelAndView.addObject("allPosts", allPost);
         modelAndView.addObject("user", user);
-        modelAndView.addObject("post", new Post());
+        Post post = new Post();
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")) {
+            post.setUser(userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
+        }
+        modelAndView.addObject("post", post);
+        System.out.println(post.getUser());
         modelAndView.setViewName("home");
         return modelAndView;
     }
@@ -61,6 +69,25 @@ public class HomeController {
     public ModelAndView deletePost(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView();
         postService.deletePost(id);
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editPost(@PathVariable("id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView();
+        Post post = postService.getPost(id);
+        System.out.println("POST ID z metody GET-------" + post.getPostId());
+        modelAndView.addObject("post", post);
+        modelAndView.setViewName("editPostForm");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ModelAndView editPost(@Valid Post post, BindingResult bindingResult, ModelAndView modelAndView) {
+        System.out.println("POST ID z met POST"+post.getPostId());
+        postService.updatePost(post);
+
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
