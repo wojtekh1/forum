@@ -28,56 +28,57 @@
 </head>
 
 <body>
+    <div class="container">
+        <div th:replace="fragments/header :: header"></div>
+        <div style="margin-top: 110px"></div>
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+            </div>
+            <div class="col-md-8 col-sm-12">
+                <h1>Witam na forum</h1>
+                <h5>Zapraszam do rejestracji i publikacji postów.</h5>
+                <div class="m-2 p-2 border rounded" th:if="${#request.getUserPrincipal() != null}">
+                    <form class="form-horizontal" th:action="@{/}" th:object="${post}" method="POST">
+                        <input type="hidden" th:field="*{user}" />
+                        <input type="text" class="form-control m-1" th:field="*{topic}" placeholder="Temat postu" />
+                        <label th:if="${#fields.hasErrors('topic')}" th:errors="*{topic}" class="validation-message text-danger"></label>
+                        <input type="text" class="form-control m-1" th:field="*{postContent}" placeholder="Treść postu" />
+                        <label th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}" class="validation-message text-danger"></label>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-primary ml-auto mr-auto pl-5 pr-5" type="submit">Opublikuj</button>
+                        </div>
 
-    <div class="container" th:replace="fragments/header :: header"></div>
-    <div style="margin-top: 110px"></div>
-    <div class="row">
-        <div class="col-md-2 col-sm-12">
-        </div>
-        <div class="col-md-8 col-sm-12">
-            <h1>Witam na forum</h1>
-            <h5>Zapraszam do rejestracji i publikacji postów.</h5>
-            <div class="m-2 p-2 border rounded" th:if="${#request.getUserPrincipal() != null}">
-                <form class="form-horizontal" th:action="@{/}" th:object="${post}" method="POST">
-                    <input type="hidden" th:field="*{user}"/>
-                    <input type="text" class="form-control m-1" th:field="*{topic}" placeholder="Temat postu" />
-                    <label th:if="${#fields.hasErrors('topic')}" th:errors="*{topic}" class="validation-message text-danger"></label>
-                    <input type="text" class="form-control m-1" th:field="*{postContent}" placeholder="Treść postu" />
-                    <label th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}" class="validation-message text-danger"></label>
+                    </form>
+                </div>
+
+                <div class=" border border-secondary rounded m-2" th:each="post : ${allPosts}">
+                    <h2>
+                        <div class="ml-4" th:text="${post.topic}"></div>
+                    </h2>
+                    <h6>
+                        <div class="ml-5" th:text="${post.postContent}"></div>
+                    </h6>
                     <div class="d-flex">
-                        <button class="btn btn-outline-primary ml-auto mr-auto pl-5 pr-5" type="submit">Opublikuj</button>
+                        <div class="mr-auto ml-2" th:text="${post.user.getEmail()}"></div>
+                        <div class="ml-auto mr-2" th:text="${#temporals.format(post.date, 'dd-MM-yyyy HH:mm')}"></div>
                     </div>
+                    <div class="d-flex">
+                        <div class="mr-auto ml-2" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().getName().equals(post.user.getEmail())}">
 
-                </form>
-            </div>
-
-            <div class=" border border-secondary rounded m-2" th:each="post : ${allPosts}">
-                <h2>
-                    <div class="ml-4" th:text="${post.topic}"></div>
-                </h2>
-                <h6>
-                    <div class="ml-5" th:text="${post.postContent}"></div>
-                </h6>
-                <div class="d-flex">
-                    <div class="mr-auto ml-2" th:text="${post.user.getEmail()}"></div>
-                    <div class="ml-auto mr-2" th:text="${#temporals.format(post.date, 'dd-MM-yyyy HH:mm')}"></div>
-                </div>
-                <div class="d-flex">
-                    <div class="mr-auto ml-2" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().getName().equals(post.user.getEmail())}">
-                       
-                        <a th:href="${'/edit/'+post.postId}" class="btn btn-outline-info ml-auto m-2">Edytuj post</a>
-                    </div>
-                    <div class="ml-auto" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().toString().contains('ADMIN')}">
-                        <a th:href="${'/delete/'+post.postId}" class="btn btn-outline-danger ml-auto m-2" >Usuń post</a>
+                            <a th:href="${'/edit/'+post.postId}" class="btn btn-outline-info ml-auto m-2">Edytuj post</a>
+                        </div>
+                        <div class="ml-auto" th:if="${#request.getUserPrincipal() != null && #request.getUserPrincipal().toString().contains('ADMIN')}">
+                            <a th:href="${'/delete/'+post.postId}" class="btn btn-outline-danger ml-auto m-2">Usuń post</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-2 col-sm-12">
+            </div>
         </div>
-        <div class="col-md-2 col-sm-12">
-        </div>
+        <div style="margin-bottom: 50px"></div>
+        <br>
+        <div th:replace="fragments/footer :: footer"></div>
     </div>
-    <div style="margin-bottom: 50px"></div>
-    <br>
-    <div class="container" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

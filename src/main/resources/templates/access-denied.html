@@ -3,7 +3,7 @@
 <head>
     <title>Forum</title>
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
     <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
@@ -11,11 +11,13 @@
     <link href="../static/css/custom_style.css" rel="stylesheet">
 </head>
 <center>
-    <div class="container" th:replace="fragments/header :: header"></div>
-    <div style="margin-top: 110px"></div>
-    <H2>Błąd</H2>
-    <div style="margin-top: 80px"></div>
-    <a th:onclick="'javascript:window.history.back();'" class="btn btn-warning ml-3">Wstecz</a>
-    <div class="container" th:replace="fragments/footer :: footer"></div>
+    <div class="container">
+        <div th:replace="fragments/header :: header"></div>
+        <div style="margin-top: 110px"></div>
+        <H2>Błąd</H2>
+        <div style="margin-top: 80px"></div>
+        <a th:onclick="'javascript:window.history.back();'" class="btn btn-warning ml-3">Wstecz</a>
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
 </center>
 </html>
